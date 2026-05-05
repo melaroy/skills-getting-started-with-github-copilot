@@ -5,6 +5,7 @@ Tests cover both success and error scenarios for the activities endpoints,
 using the Arrange-Act-Assert (AAA) pattern for clarity.
 """
 import pytest
+from urllib.parse import urlencode
 from fastapi.testclient import TestClient
 
 
@@ -181,10 +182,11 @@ class TestEdgeCases:
         """Arrange-Act-Assert: Email with special characters is accepted."""
         # Arrange: Email with special characters
         special_email = "student+tag@mergington.co.uk"
+        query_params = urlencode({"email": special_email})
 
         # Act: Sign up with special character email
         response = client.post(
-            f"/activities/Science Club/signup?email={special_email}"
+            f"/activities/Science Club/signup?{query_params}"
         )
 
         # Assert: Signup succeeds and email is stored
